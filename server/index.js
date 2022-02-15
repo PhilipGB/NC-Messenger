@@ -16,16 +16,15 @@ io.on("connection", (socket) => {
   console.log("a user connected");
 
   socket.on("chat message", (msg) => {
+    console.log(new Date(Date.now()));
+
     users[socket.id] = msg.user;
     io.emit("chat message", msg);
   });
 
   socket.on("disconnect", () => {
     console.log(`${users[socket.id]} disconnected`);
-    io.emit("chat message", {
-      user: `${users[socket.id]}`,
-      msg: "left the chat",
-    });
+    io.emit("left chat", { user: `${users[socket.id]}` });
   });
 });
 
